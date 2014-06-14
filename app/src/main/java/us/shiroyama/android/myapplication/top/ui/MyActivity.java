@@ -1,4 +1,4 @@
-package us.shiroyama.android.myapplication;
+package us.shiroyama.android.myapplication.top.ui;
 
 import android.app.Notification;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import javax.inject.Inject;
 
 import proton.inject.activity.ProtonActivity;
+import us.shiroyama.android.myapplication.R;
 import us.shiroyama.android.myapplication.common.helper.Toaster;
 
 
