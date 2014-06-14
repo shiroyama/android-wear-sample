@@ -28,8 +28,8 @@ import us.shiroyama.android.myapplication.top.model.City;
 import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
 
 
-public class MyActivity extends ProtonActivity {
-    private static final String TAG = MyActivity.class.getSimpleName();
+public class TopActivity extends ProtonActivity {
+    private static final String TAG = TopActivity.class.getSimpleName();
 
     @InjectView(R.id.spinner)
     Spinner mSpinner;
