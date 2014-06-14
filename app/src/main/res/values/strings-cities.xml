@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sapporo">札幌</string>
+    <string name="aomori">青森</string>
+    <string name="kanazawa">金沢</string>
+    <string name="tokyo">東京</string>
+    <string name="kyoto">京都</string>
+    <string name="hiroshima">広島</string>
+    <string name="fukuoka">福岡</string>
+</resources>

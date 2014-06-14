@@ -27,7 +27,7 @@ public class WeatherFetcher {
         mCallback = callback;
     }
 
-    public void fetch() {
+    public void fetch(final String place) {
         if (mApi == null) {
             throw new InitializationException("API is not initialized.");
         }
@@ -35,7 +35,7 @@ public class WeatherFetcher {
             throw new InitializationException("Callback is not passed.");
         }
 
-        mApi.getWeather(DEFAULT_PLACE, new Callback<WeatherResponse>() {
+        mApi.getWeather(place, new Callback<WeatherResponse>() {
             @Override
             public void success(WeatherResponse weatherResponse, Response response) {
                 mCallback.onSuccess(weatherResponse);
