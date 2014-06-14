@@ -22,4 +22,5 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:+'
     compile files('./libs/wearable-preview-support.jar')
+    compile project(':proton/:Proton')
 }

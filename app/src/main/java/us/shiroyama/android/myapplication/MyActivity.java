@@ -1,6 +1,5 @@
 package us.shiroyama.android.myapplication;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.os.Bundle;
 import android.preview.support.v4.app.NotificationManagerCompat;
@@ -9,8 +8,15 @@ import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
 
-public class MyActivity extends Activity {
+import proton.inject.activity.ProtonActivity;
+import us.shiroyama.android.myapplication.common.helper.Toaster;
+
+
+public class MyActivity extends ProtonActivity {
+    @Inject
+    private Toaster mToaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,8 @@ public class MyActivity extends Activity {
                 .build();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, notification);
+
+        mToaster.toast("OK");
     }
 
 
