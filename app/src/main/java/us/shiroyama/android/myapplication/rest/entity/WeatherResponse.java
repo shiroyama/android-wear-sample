@@ -131,7 +131,7 @@ public class WeatherResponse {
         private double temp_max;
         private double temp_min;
         private long humidity;
-        private long pressure;
+        private double pressure;
         private double temp;
 
         public double getTemp_max() {
@@ -146,7 +146,7 @@ public class WeatherResponse {
             return humidity;
         }
 
-        public long getPressure() {
+        public double getPressure() {
             return pressure;
         }
 
@@ -156,10 +156,10 @@ public class WeatherResponse {
     }
 
     public static class Wind {
-        private long deg;
+        private double deg;
         private double speed;
 
-        public long getDeg() {
+        public double getDeg() {
             return deg;
         }
 

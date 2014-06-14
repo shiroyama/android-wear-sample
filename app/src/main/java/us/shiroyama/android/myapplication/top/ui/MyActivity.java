@@ -54,7 +54,7 @@ public class MyActivity extends ProtonActivity {
             @Override
             public void onSuccess(WeatherResponse weatherResponse) {
                 notifyWeather(weatherResponse);
-                Log.e(TAG, "weather fetch succeeded.");
+                Log.d(TAG, "weather fetch succeeded.");
             }
 
             @Override
