@@ -8,32 +8,60 @@ import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import proton.inject.activity.ProtonActivity;
 import us.shiroyama.android.myapplication.R;
 import us.shiroyama.android.myapplication.common.helper.Toaster;
+import us.shiroyama.android.myapplication.rest.entity.WeatherResponse;
+import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
 
 
 public class MyActivity extends ProtonActivity {
     @Inject
     private Toaster mToaster;
 
+    @Inject
+    private WeatherFetcher mWeatherFetcher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle("this is title")
-                .setContentText("this is text")
-                .setSmallIcon(R.drawable.ic_launcher);
 
+        mWeatherFetcher.onCreate(new WeatherFetcher.WeatherCallback() {
+            @Override
+            public void onSuccess(WeatherResponse weatherResponse) {
+                notifyWeather(weatherResponse);
+                mToaster.toast("OK");
+            }
+
+            @Override
+            public void onFailure() {
+                mToaster.toast("NG");
+            }
+        });
+        mWeatherFetcher.fetch();
+
+    }
+
+    private void notifyWeather(WeatherResponse weatherResponse) {
+        List<WeatherResponse.Weather> weatherList = weatherResponse.getWeather();
+        WeatherResponse.Weather weather = weatherList.get(0);
+        String icon = weather.getIcon();
+        String description = weather.getDescription();
+        String main = weather.getMain();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentTitle(main)
+                .setContentText(description)
+                .setSmallIcon(R.drawable.ic_launcher);
         Notification notification = new WearableNotifications.Builder(builder)
                 .build();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, notification);
-
-        mToaster.toast("OK");
     }
 
 
