@@ -23,4 +23,5 @@ dependencies {
     compile 'com.android.support:support-v4:+'
     compile files('./libs/wearable-preview-support.jar')
     compile project(':proton/:Proton')
+    compile 'com.squareup.retrofit:retrofit:1.6.0'
 }
