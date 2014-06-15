@@ -1,18 +1,12 @@
 package us.shiroyama.android.myapplication.top.ui;
 
-import android.app.Notification;
 import android.os.Bundle;
-import android.preview.support.v4.app.NotificationManagerCompat;
-import android.preview.support.wearable.notifications.WearableNotifications;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,27 +15,27 @@ import butterknife.InjectView;
 import butterknife.OnItemSelected;
 import proton.inject.activity.ProtonActivity;
 import us.shiroyama.android.myapplication.R;
-import us.shiroyama.android.myapplication.common.helper.Toaster;
 import us.shiroyama.android.myapplication.rest.entity.WeatherResponse;
 import us.shiroyama.android.myapplication.top.helper.SpinnerHelper;
+import us.shiroyama.android.myapplication.top.helper.WeatherNotificationHelper;
 import us.shiroyama.android.myapplication.top.model.City;
 import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
 
 
-public class TopActivity extends ProtonActivity {
+public class TopActivity extends ProtonActivity implements WeatherFetcher.WeatherCallback {
     private static final String TAG = TopActivity.class.getSimpleName();
 
     @InjectView(R.id.spinner)
     Spinner mSpinner;
 
     @Inject
-    private Toaster mToaster;
-
-    @Inject
     private WeatherFetcher mWeatherFetcher;
 
     @Inject
     private SpinnerHelper mSpinnerHelper;
+
+    @Inject
+    private WeatherNotificationHelper mNotificationHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,40 +44,7 @@ public class TopActivity extends ProtonActivity {
         ButterKnife.inject(this);
 
         mSpinnerHelper.initialize(mSpinner);
-        mWeatherFetcher.onCreate(new WeatherFetcher.WeatherCallback() {
-            @Override
-            public void onSuccess(WeatherResponse weatherResponse) {
-                notifyWeather(weatherResponse);
-                Log.d(TAG, "weather fetch succeeded.");
-            }
-
-            @Override
-            public void onFailure() {
-                Log.e(TAG, "weather fetch failed.");
-            }
-        });
-    }
-
-    private void notifyWeather(WeatherResponse weatherResponse) {
-        List<WeatherResponse.Weather> weatherList = weatherResponse.getWeather();
-        String cityName = weatherResponse.getName();
-        WeatherResponse.Weather weather = weatherList.get(0);
-        String icon = weather.getIcon();
-        String description = weather.getDescription();
-        String main = weather.getMain();
-
-        String title = String.format("%s 's weather: %s", cityName, main);
-        mToaster.toast(title);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                //.setContentTitle(title)
-                .setContentTitle(cityName)
-                .setContentText(description)
-                .setSmallIcon(R.drawable.ic_launcher);
-        Notification notification = new WearableNotifications.Builder(builder)
-                .build();
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(1, notification);
+        mWeatherFetcher.onCreate(this);
     }
 
     @OnItemSelected(R.id.spinner)
@@ -116,5 +77,16 @@ public class TopActivity extends ProtonActivity {
         if (mWeatherFetcher != null) {
             mWeatherFetcher.onDestroy();
         }
+    }
+
+    @Override
+    public void onSuccess(WeatherResponse weatherResponse) {
+        mNotificationHelper.notifyWeather(weatherResponse);
+        Log.d(TAG, "weather fetch succeeded.");
+    }
+
+    @Override
+    public void onFailure() {
+        Log.e(TAG, "weather fetch failed.");
     }
 }

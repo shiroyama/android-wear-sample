@@ -6,6 +6,7 @@ import retrofit.RestAdapter;
 import us.shiroyama.android.myapplication.common.helper.Toaster;
 import us.shiroyama.android.myapplication.rest.RestAdapterProvider;
 import us.shiroyama.android.myapplication.top.helper.SpinnerHelper;
+import us.shiroyama.android.myapplication.top.helper.WeatherNotificationHelper;
 import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
 
 /**
@@ -20,6 +21,7 @@ public class MyModule extends DefaultModule {
         bind(RestAdapter.class).toProvider(RestAdapterProvider.class).in(ContextScoped.class);
         bind(WeatherFetcher.class).in(ContextScoped.class);
         bind(SpinnerHelper.class).in(ContextScoped.class);
+        bind(WeatherNotificationHelper.class).in(ContextScoped.class);
     }
 
 }
