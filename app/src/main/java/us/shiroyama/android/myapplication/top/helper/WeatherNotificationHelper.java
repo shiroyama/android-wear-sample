@@ -1,7 +1,6 @@
 package us.shiroyama.android.myapplication.top.helper;
 
 import android.app.Notification;
-import android.graphics.BitmapFactory;
 import android.preview.support.v4.app.NotificationManagerCompat;
 import android.preview.support.wearable.notifications.WearableNotifications;
 import android.support.v4.app.NotificationCompat;
@@ -10,7 +9,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import us.shiroyama.android.myapplication.R;
 import us.shiroyama.android.myapplication.common.helper.AbstractContextHelper;
 import us.shiroyama.android.myapplication.common.helper.Toaster;
 import us.shiroyama.android.myapplication.rest.entity.WeatherResponse;
@@ -23,26 +21,31 @@ public class WeatherNotificationHelper extends AbstractContextHelper {
     @Inject
     private Toaster mToaster;
 
+    @Inject
+    private IconHelper mIconHelper;
+
     public void notifyWeather(WeatherResponse weatherResponse) {
         List<WeatherResponse.Weather> weatherList = weatherResponse.getWeather();
-        String cityName = weatherResponse.getName();
         // multiple weather could be returned
         WeatherResponse.Weather weather = weatherList.get(0);
-        String icon = weather.getIcon();
+
+        String cityName = weatherResponse.getName();
         String description = weather.getDescription();
         String main = weather.getMain();
+        String iconCode = weather.getIcon();
 
-        String title = String.format("%s 's weather: %s", cityName, main);
-        mToaster.toast(title);
+        String contentTitle = String.format("%s 's weather", cityName);
+        String contentText = String.format("%s (%s)", main, description);
+
+        // Toast on Android phone
+        mToaster.toast(String.format("%s %s", contentTitle, contentText));
 
         // TODO refactor
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext())
-                .setContentTitle(cityName)
-                .setContentText(description)
-                        // experimental: large icon is shown on the back of the notification window
-                .setLargeIcon(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher))
-                        // experimental: small icon is shown on the center of the notification window
-                .setSmallIcon(R.drawable.ic_launcher);
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setLargeIcon(mIconHelper.getLargeIcon(iconCode))
+                .setSmallIcon(mIconHelper.getSmallIcon(iconCode));
         Notification notification = new WearableNotifications.Builder(builder)
                 .build();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
