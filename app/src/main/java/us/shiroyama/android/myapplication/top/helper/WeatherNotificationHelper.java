@@ -1,6 +1,7 @@
 package us.shiroyama.android.myapplication.top.helper;
 
 import android.app.Notification;
+import android.graphics.BitmapFactory;
 import android.preview.support.v4.app.NotificationManagerCompat;
 import android.preview.support.wearable.notifications.WearableNotifications;
 import android.support.v4.app.NotificationCompat;
@@ -34,10 +35,13 @@ public class WeatherNotificationHelper extends AbstractContextHelper {
         String title = String.format("%s 's weather: %s", cityName, main);
         mToaster.toast(title);
 
+        // TODO refactor
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext())
-                //.setContentTitle(title)
                 .setContentTitle(cityName)
                 .setContentText(description)
+                        // experimental: large icon is shown on the back of the notification window
+                .setLargeIcon(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher))
+                        // experimental: small icon is shown on the center of the notification window
                 .setSmallIcon(R.drawable.ic_launcher);
         Notification notification = new WearableNotifications.Builder(builder)
                 .build();
