@@ -1,5 +1,7 @@
 package us.shiroyama.android.myapplication.top.helper;
 
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -18,6 +20,13 @@ public class SpinnerHelper extends AbstractContextHelper {
             adapter.add(getContext().getString(city.getResourceId()));
         }
         spinner.setAdapter(adapter);
+    }
+
+    public String getSelectedCity(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = (Spinner) parent;
+        String cityName = (String) spinner.getSelectedItem();
+        City chosenCity = City.valueOf(getContext(), cityName);
+        return chosenCity.getLocationQuery();
     }
 
 }

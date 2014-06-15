@@ -18,7 +18,6 @@ import us.shiroyama.android.myapplication.R;
 import us.shiroyama.android.myapplication.rest.entity.WeatherResponse;
 import us.shiroyama.android.myapplication.top.helper.SpinnerHelper;
 import us.shiroyama.android.myapplication.top.helper.WeatherNotificationHelper;
-import us.shiroyama.android.myapplication.top.model.City;
 import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
 
 
@@ -49,10 +48,7 @@ public class TopActivity extends ProtonActivity implements WeatherFetcher.Weathe
 
     @OnItemSelected(R.id.spinner)
     void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Spinner spinner = (Spinner) parent;
-        String item = (String) spinner.getSelectedItem();
-        City chosenCity = City.valueOf(this, item);
-        String locationQuery = chosenCity.getLocationQuery();
+        String locationQuery = mSpinnerHelper.getSelectedCity(parent, view, position, id);
         mWeatherFetcher.fetch(locationQuery);
     }
 
@@ -89,4 +85,5 @@ public class TopActivity extends ProtonActivity implements WeatherFetcher.Weathe
     public void onFailure() {
         Log.e(TAG, "weather fetch failed.");
     }
+
 }
