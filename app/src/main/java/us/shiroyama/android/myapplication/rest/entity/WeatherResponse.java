@@ -1,5 +1,7 @@
 package us.shiroyama.android.myapplication.rest.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -169,6 +171,7 @@ public class WeatherResponse {
     }
 
     public static class Rain {
+        @SerializedName("3h")
         private String _3h;
 
         public String get_3h() {
