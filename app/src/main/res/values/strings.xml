@@ -4,5 +4,6 @@
     <string name="app_name">Weather Notifier for Android Wear</string>
     <string name="explanation">CHOOSE ONE CITY!</string>
     <string name="action_settings">Settings</string>
+    <string name="gps_button_get">GET GPS</string>
 
 </resources>

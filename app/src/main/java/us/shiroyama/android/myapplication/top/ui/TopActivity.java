@@ -6,16 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import proton.inject.activity.ProtonActivity;
 import us.shiroyama.android.myapplication.R;
 import us.shiroyama.android.myapplication.rest.entity.WeatherResponse;
+import us.shiroyama.android.myapplication.top.helper.GpsButtonHelper;
 import us.shiroyama.android.myapplication.top.helper.SpinnerHelper;
 import us.shiroyama.android.myapplication.top.helper.WeatherNotificationHelper;
 import us.shiroyama.android.myapplication.top.model.WeatherFetcher;
@@ -27,6 +30,9 @@ public class TopActivity extends ProtonActivity implements WeatherFetcher.Weathe
     @InjectView(R.id.spinner)
     Spinner mSpinner;
 
+    @InjectView(R.id.ButtonGps)
+    Button mButton;
+
     @Inject
     private WeatherFetcher mWeatherFetcher;
 
@@ -35,6 +41,9 @@ public class TopActivity extends ProtonActivity implements WeatherFetcher.Weathe
 
     @Inject
     private WeatherNotificationHelper mNotificationHelper;
+
+    @Inject
+    private GpsButtonHelper mButtonHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,11 @@ public class TopActivity extends ProtonActivity implements WeatherFetcher.Weathe
     void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String locationQuery = mSpinnerHelper.getSelectedCity(parent, view, position, id);
         mWeatherFetcher.fetch(locationQuery);
+    }
+
+    @OnClick(R.id.ButtonGps)
+    void onClickButton(Button button) {
+        mButtonHelper.onClick(button);
     }
 
     @Override

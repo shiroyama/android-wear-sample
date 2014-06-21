@@ -5,6 +5,7 @@ import proton.inject.scope.ContextScoped;
 import retrofit.RestAdapter;
 import us.shiroyama.android.myapplication.common.helper.Toaster;
 import us.shiroyama.android.myapplication.rest.RestAdapterProvider;
+import us.shiroyama.android.myapplication.top.helper.GpsButtonHelper;
 import us.shiroyama.android.myapplication.top.helper.IconHelper;
 import us.shiroyama.android.myapplication.top.helper.SpinnerHelper;
 import us.shiroyama.android.myapplication.top.helper.WeatherNotificationHelper;
@@ -24,6 +25,7 @@ public class MyModule extends DefaultModule {
         bind(SpinnerHelper.class).in(ContextScoped.class);
         bind(WeatherNotificationHelper.class).in(ContextScoped.class);
         bind(IconHelper.class).in(ContextScoped.class);
+        bind(GpsButtonHelper.class).in(ContextScoped.class);
     }
 
 }
